@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class FormMenu extends JFrame {
-    public static final String ESTUDIANTE = "Miguel Ulloa";
+    public static final String ESTUDIANTE = "Miguel Ángel Ulloa Ávila";
 
     private JPanel panelPrincipal;
     private JButton btnRegistrar;
@@ -24,13 +24,8 @@ public class FormMenu extends JFrame {
         setLocationRelativeTo(null);
 
         btnRegistrar.addActionListener(e -> new FormRegistro(usuarios).setVisible(true));
-
-
         btnListado.addActionListener(e -> new FormListado(usuarios).setVisible(true));
-
-        btnCreditos.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Módulo de créditos en construcción")
-        );
+        btnCreditos.addActionListener(e -> new FormCreditos().setVisible(true));
     }
 
     public static void main(String[] args) {

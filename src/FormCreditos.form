@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="FormCreditos">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="8" vgap="8">
+    <margin top="16" left="16" bottom="16" right="16"/>
+    <constraints>
+      <xy x="20" y="20" width="440" height="260"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="d1001" class="javax.swing.JLabel">
+        <constraints><grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="BookUsers — Créditos"/> </properties>
+      </component>
+
+      <component id="d1002" class="javax.swing.JLabel">
+        <constraints><grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="Nombre completo:"/> </properties>
+      </component>
+      <component id="d1003" class="javax.swing.JLabel" binding="lblNombre">
+        <constraints><grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="-"/> </properties>
+      </component>
+
+      <component id="d1004" class="javax.swing.JLabel">
+        <constraints><grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="Código estudiantil:"/> </properties>
+      </component>
+      <component id="d1005" class="javax.swing.JLabel" binding="lblCodigo">
+        <constraints><grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="-"/> </properties>
+      </component>
+
+      <component id="d1006" class="javax.swing.JLabel">
+        <constraints><grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="Correo:"/> </properties>
+      </component>
+      <component id="d1007" class="javax.swing.JLabel" binding="lblCorreo">
+        <constraints><grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="-"/> </properties>
+      </component>
+
+      <component id="d1008" class="javax.swing.JLabel">
+        <constraints><grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="Asignatura:"/> </properties>
+      </component>
+      <component id="d1009" class="javax.swing.JLabel">
+        <constraints><grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="POO 910205 · Grupo N1 · UNIPAZ 2026B"/> </properties>
+      </component>
+
+      <component id="d1010" class="javax.swing.JButton" binding="btnCerrar">
+        <constraints><grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/></constraints>
+        <properties><text value="Cerrar"/> </properties>
+      </component>
+    </children>
+  </grid>
+</form>
