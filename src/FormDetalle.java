@@ -1,6 +1,14 @@
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class FormDetalle extends JFrame {
     private JPanel panelPrincipal;
@@ -27,9 +35,7 @@ public class FormDetalle extends JFrame {
 
         cargarDatos();
 
-        btnGenerarPdf.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "La generación de PDF se agrega en el siguiente commit.")
-        );
+        btnGenerarPdf.addActionListener(e -> generarPdf());
     }
 
     private void cargarDatos() {
@@ -50,6 +56,64 @@ public class FormDetalle extends JFrame {
         } else {
             lblFoto.setIcon(null);
             lblFoto.setText("Sin foto");
+        }
+    }
+
+    private void generarPdf() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Guardar ficha del usuario en PDF");
+        chooser.setFileFilter(new FileNameExtensionFilter("Documentos PDF (*.pdf)", "pdf"));
+        chooser.setSelectedFile(new File("usuario_" + usuario.getUsername() + ".pdf"));
+
+        if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File archivo = chooser.getSelectedFile();
+        if (!archivo.getName().toLowerCase().endsWith(".pdf")) {
+            archivo = new File(archivo.getAbsolutePath() + ".pdf");
+        }
+
+        Document documento = new Document();
+        try (FileOutputStream fos = new FileOutputStream(archivo)) {
+            PdfWriter.getInstance(documento, fos);
+            documento.open();
+
+            Font fuenteTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font fuenteNormal = FontFactory.getFont(FontFactory.HELVETICA, 12);
+
+            documento.add(new Paragraph("BookUsers - Ficha de Usuario", fuenteTitulo));
+            documento.add(new Paragraph(" "));
+
+            String rutaFoto = usuario.getRutaFoto();
+            if (rutaFoto != null && !rutaFoto.isBlank()) {
+                try {
+                    File archivoFoto = new File(rutaFoto);
+                    if (archivoFoto.exists()) {
+                        com.lowagie.text.Image fotoPdf = com.lowagie.text.Image.getInstance(rutaFoto);
+                        fotoPdf.scaleToFit(120, 120);
+                        documento.add(fotoPdf);
+                        documento.add(new Paragraph(" "));
+                    } else {
+                        documento.add(new Paragraph("Foto: no encontrada en disco.", fuenteNormal));
+                    }
+                } catch (Exception imgEx) {
+                    documento.add(new Paragraph("Foto: no se pudo cargar (" + imgEx.getMessage() + ").", fuenteNormal));
+                }
+            }
+
+            documento.add(new Paragraph("ID: " + usuario.getId(), fuenteNormal));
+            documento.add(new Paragraph("Tipo de identificación: " + usuario.getTipoIdentificacion(), fuenteNormal));
+            documento.add(new Paragraph("Número de identificación: " + usuario.getNumeroIdentificacion(), fuenteNormal));
+            documento.add(new Paragraph("Nombre completo: " + usuario.getNombreCompleto(), fuenteNormal));
+            documento.add(new Paragraph("Username: " + usuario.getUsername(), fuenteNormal));
+            documento.add(new Paragraph("Teléfono: " + usuario.getTelefono(), fuenteNormal));
+            documento.add(new Paragraph("Correo: " + usuario.getCorreo(), fuenteNormal));
+
+            documento.close();
+            JOptionPane.showMessageDialog(this, "PDF generado correctamente en:\n" + archivo.getAbsolutePath());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al generar el PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
