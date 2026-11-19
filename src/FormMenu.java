@@ -26,9 +26,7 @@ public class FormMenu extends JFrame {
         btnRegistrar.addActionListener(e -> new FormRegistro(usuarios).setVisible(true));
 
 
-        btnListado.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Módulo de listado en construcción")
-        );
+        btnListado.addActionListener(e -> new FormListado(usuarios).setVisible(true));
 
         btnCreditos.addActionListener(e ->
                 JOptionPane.showMessageDialog(this, "Módulo de créditos en construcción")
