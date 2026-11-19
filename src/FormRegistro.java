@@ -23,12 +23,20 @@ public class FormRegistro extends JFrame {
     private JButton btnGuardar;
 
     private final ArrayList<Usuario> usuarios;
+    private final Usuario usuarioEditar;
+    private final Runnable alGuardar;
     private String rutaFotoSeleccionada = "";
 
     public FormRegistro(ArrayList<Usuario> usuarios) {
-        this.usuarios = usuarios;
+        this(usuarios, null, null);
+    }
 
-        setTitle("BookUsers - Registro · " + FormMenu.ESTUDIANTE);
+    public FormRegistro(ArrayList<Usuario> usuarios, Usuario usuarioEditar, Runnable alGuardar) {
+        this.usuarios = usuarios;
+        this.usuarioEditar = usuarioEditar;
+        this.alGuardar = alGuardar;
+
+        setTitle((usuarioEditar == null ? "BookUsers - Registro · " : "BookUsers - Actualizar · ") + FormMenu.ESTUDIANTE);
         setContentPane(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(520, 620);
@@ -36,6 +44,11 @@ public class FormRegistro extends JFrame {
 
         cargarTiposDocumento();
         configurarListenerUsername();
+
+        if (usuarioEditar != null) {
+            btnGuardar.setText("Guardar cambios");
+            cargarDatosUsuario(usuarioEditar);
+        }
 
         btnCargarFoto.addActionListener(e -> seleccionarFoto());
         btnGuardar.addActionListener(e -> guardarUsuario());
@@ -56,7 +69,25 @@ public class FormRegistro extends JFrame {
         for (String tipo : tipos) {
             cmbTipoId.addItem(tipo);
         }
-        cmbTipoId.setSelectedIndex(2); // 13 - Cédula de ciudadanía por defecto
+        cmbTipoId.setSelectedIndex(2);
+    }
+
+    private void cargarDatosUsuario(Usuario u) {
+        cmbTipoId.setSelectedItem(u.getTipoIdentificacion());
+        txtNumeroId.setText(u.getNumeroIdentificacion());
+        txtPrimerNombre.setText(u.getPrimerNombre());
+        txtSegundoNombre.setText(u.getSegundoNombre());
+        txtPrimerApellido.setText(u.getPrimerApellido());
+        txtSegundoApellido.setText(u.getSegundoApellido());
+        txtPassword.setText(u.getPassword());
+        txtTelefono.setText(u.getTelefono());
+        txtCorreo.setText(u.getCorreo());
+
+        rutaFotoSeleccionada = u.getRutaFoto() != null ? u.getRutaFoto() : "";
+        if (!rutaFotoSeleccionada.isBlank() && new File(rutaFotoSeleccionada).exists()) {
+            mostrarImagenEscalada(rutaFotoSeleccionada);
+        }
+        actualizarUsername();
     }
 
     private void configurarListenerUsername() {
@@ -123,6 +154,26 @@ public class FormRegistro extends JFrame {
 
         if (!correo.contains("@")) {
             JOptionPane.showMessageDialog(this, "El correo electrónico debe contener '@'.", "Correo inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (usuarioEditar != null) {
+            usuarioEditar.setTipoIdentificacion(tipoId);
+            usuarioEditar.setNumeroIdentificacion(numeroId);
+            usuarioEditar.setPrimerNombre(primerNombre);
+            usuarioEditar.setSegundoNombre(segundoNombre);
+            usuarioEditar.setPrimerApellido(primerApellido);
+            usuarioEditar.setSegundoApellido(segundoApellido);
+            usuarioEditar.setPassword(password);
+            usuarioEditar.setTelefono(telefono);
+            usuarioEditar.setCorreo(correo);
+            usuarioEditar.setRutaFoto(rutaFotoSeleccionada);
+
+            if (alGuardar != null) {
+                alGuardar.run();
+            }
+            JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente.\nID conservado: " + usuarioEditar.getId() + "\nUsername: " + usuarioEditar.getUsername());
+            dispose();
             return;
         }
 
